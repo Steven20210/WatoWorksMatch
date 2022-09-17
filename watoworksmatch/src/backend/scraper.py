@@ -3,10 +3,11 @@ from selenium.webdriver.common.keys import Keys
 import time
 
 
-def scrape_for_postings(keywords):
+def scrape_for_postings(resume):
 
-    # First identify the program
-    program = keywords[program]
+    program = resume['program']
+    keywords = resume['skills']
+
     driver = webdriver.Chrome(
         r'C:\Users\Steven\Downloads\chromedriver_win32 (1)\chromedriver.exe')
     waterloo_works_url = "https://waterlooworks.uwaterloo.ca/myAccount/co-op/coop-postings.htm"
@@ -15,7 +16,24 @@ def scrape_for_postings(keywords):
     posting_table = driver.find_element_by_id('postingsTable')
     postings = posting_table.find_elements_by_tag_name('tr')
 
+    job_rank_arr = []
+
     for job in postings:
         link = job.find_element_by_tag_name('a')
         link.send_keys(Keys.ENTER)
-        link.send_keys(Keys.)
+        posting = link.send_keys(Keys.COMMAND + Keys.TAB)
+        description = posting.find_element_by_class_name(
+            'np-view-question--31')
+
+        job_title = posting.find_element_by_class_name(
+            'h3 dashboard-header__profile-information-name mobile--small-font color--font--white margin--b--s').getText()
+
+        matches = 0
+        for keyword in keywords:
+            if keyword in description:
+                matches += 1
+
+        job_keyword_match = {job_title: matches}
+        job_rank_arr.append(job_keyword_match)
+
+    return job_rank_arr
