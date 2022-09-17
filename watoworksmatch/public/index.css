@@ -1,0 +1,14 @@
+title {
+    align-items: center;
+    justify-content: center;
+    color: blue;
+}
+
+.directoryLabel {
+    color:blueviolet;
+}
+
+.uploadBtn {
+    align-items: center;
+    padding: 10px;
+}
