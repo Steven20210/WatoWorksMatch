@@ -37,3 +37,6 @@ def scrape_for_postings(resume):
         job_rank_arr.append(job_keyword_match)
 
     return job_rank_arr
+
+
+job_rank_arr = scrape_for_postings(sys.argv[1])

@@ -4,6 +4,7 @@ console.log("hwllo")
 const express = require('express');
 const cors = require('cors');
 const ResumeParser = require('resume-parser');
+const {PythonShell} =require('python-shell');
 
 // defining the Express app
 const app = express();
@@ -35,6 +36,27 @@ app.post("/resume", (req, res)=>{
     console.log(file)
     resume = file
   });
+
+  let options = {
+    mode: 'text',
+    pythonOptions: ['-u'], // get print results in real-time
+      scriptPath: 'C:/Users/Steven/Documents/GitHub/WatoWorksMatch/watoworksmatch/src/backend', //If you are having python_test.py script in same folder, then it's optional.
+    args: [resume] //An argument which can be accessed in the python file using sys.argv[1]
+};
+ 
+
+PythonShell.run('scraper.py', options, function (err, result){
+      if (err) throw err;
+      // result is an array consisting of messages collected
+      //during execution of script.
+      console.log('price: ', result.toString());  
+      price = result.toString()    
+      res.send(price)
+      
+      
+});
+
+
 
   
 
